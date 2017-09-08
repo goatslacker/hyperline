@@ -1,7 +1,7 @@
 import Component from 'hyper/component'
 import React from 'react'
 import SvgIcon from '../utils/svg-icon'
-import os from 'os'
+import { exec } from 'child_process'
 
 class PluginIcon extends Component {
   styles() {
@@ -28,9 +28,37 @@ class PluginIcon extends Component {
   }
 }
 
-export default class HostName extends Component {
+export default class extends Component {
   static displayName() {
-    return 'Hostname plugin'
+    return 'CWD plugin'
+  }
+
+  constructor() {
+    super()
+    this.state = {
+      cwd: null,
+    }
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      if (this.props.pid) this.setCwd(this.props.pid)
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { pid } = nextProps
+    if (pid) this.setCwd(pid)
+  }
+
+  setCwd(pid) {
+    exec(`lsof -p ${pid} | awk '$4=="cwd"' | tr -s ' ' | cut -d ' ' -f9-`, (err, stdout) => {
+      if (!err) this.setState({ cwd: stdout.trim() })
+    })
   }
 
   styles() {
@@ -43,15 +71,11 @@ export default class HostName extends Component {
   }
 
   template(css) {
-    const hostname = os.hostname().substr(0, 9)
-    const username = process.env.USER
-    const en0 = os.networkInterfaces()['en0']
-    const ipAddress = (en0 && en0[1] && en0[1].address) || hostname
+    const cwd = (this.state.cwd || '').replace(process.env.HOME, '~')
 
     return (
       <div className={css('wrapper')}>
-        <PluginIcon /> <span className={css('username')}>{username}@</span>
-        {ipAddress}
+        <PluginIcon /> {cwd}
       </div>
     )
   }

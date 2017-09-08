@@ -1,7 +1,20 @@
+//import Git from './git-status'
 import Battery from './battery'
-//import Cpu from './cpu'
+import CWD from './cwd'
 import Hostname from './hostname'
 import Network from './network'
 import Time from './time'
 
-export default [Hostname, Battery, Network, Time]
+export default {
+  left: [
+    Hostname,
+    CWD,
+  ],
+  center: [
+  ],
+  right: [
+    Battery,
+    Network,
+    Time,
+  ],
+}

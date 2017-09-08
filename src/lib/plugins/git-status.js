@@ -1,5 +1,4 @@
 import exec from 'child_process'
-import shell from 'electron'
 import React from 'react'
 import Component from 'hyper/component'
 
@@ -44,16 +43,10 @@ export default class GitStatus extends Component {
       push: pushArrow,
       pull: pullArrow
     }
-
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick(e) {
-    shell.openExternal(this.state.remote)
   }
 
   checkDirty(actionCwd) {
-    exec(`git status --porcelain --ignore-submodules -unormal`, { cwd: actionCwd }, (err, branch) => {
+    exec(`git status --porcelain --ignore-submodules -uno`, { cwd: actionCwd }, (err, branch) => {
       repoDirty = true
     })
   }
@@ -131,6 +124,18 @@ export default class GitStatus extends Component {
     }
   }
 
-
-
+  template(css) {
+    return (
+      <div className={css('wrapper')}>
+        <div className="component_item item_icon item_cwd">{this.state.cwd ? tildify(String(this.state.cwd)) : ''}</div>
+        <div>
+          <div className="component_component component_git">
+            <div className="component_item item_icon item_branch">{this.state.branch}</div>
+      {/*<div className="component_item item_icon item_number item_dirty">{this.state.dirty} dirty</div>
+            <div className="component_item item_icon item_number item_ahead">{this.state.ahead} ahead</div>*/}
+          </div>
+        </div>
+      </div>
+    )
+  }
 }

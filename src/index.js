@@ -16,10 +16,14 @@ export function reduceUI(state, { type, config }) {
   return state
 }
 
-export function mapHyperState({ ui: { colors, fontFamily, hyperline } }, map) {
+export function mapHyperState(state, map) {
+  const { ui: { colors, fontFamily, hyperline } } = state
+  const uid = state.sessions.activeUid
+  const pid = state.sessions.sessions[uid] && state.sessions.sessions[uid].pid
   return Object.assign({}, map, {
     colors: getColorList(colors),
-    fontFamily
+    fontFamily,
+    pid,
   })
 }
 
@@ -42,9 +46,7 @@ export function decorateHyperLine(HyperLine) {
     }
 
     render() {
-      const plugins = [...this.props.plugins, ...hyperlinePlugins]
-
-      return <HyperLine {...this.props} plugins={plugins} />
+      return <HyperLine {...this.props} plugins={hyperlinePlugins} />
     }
   }
 }
@@ -67,7 +69,7 @@ export function decorateHyper(Hyper) {
       const customChildren = (
         <div>
           {this.props.customChildren}
-          <HyperLine style={{ fontFamily: this.props.fontFamily }} />
+          <HyperLine pid={this.props.pid} style={{ fontFamily: this.props.fontFamily }} />
         </div>
       )
 

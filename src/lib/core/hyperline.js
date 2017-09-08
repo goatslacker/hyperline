@@ -10,6 +10,14 @@ class HyperLine extends Component {
     }
   }
 
+  renderPlugin(css) {
+    return (Component, index) => (
+      <div key={index} className={css('wrapper')}>
+        <Component pid={this.props.pid} />
+      </div>
+    )
+  }
+
   styles() {
     return {
       line: {
@@ -21,11 +29,25 @@ class HyperLine extends Component {
         fontSize: 13,
         fontWeight: 'normal',
         height: 18,
-        justifyContent: 'center',
         overflow: 'hidden',
         pointerEvents: 'none',
         position: 'absolute',
         width: '100%',
+      },
+      left: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'flex-start',
+      },
+      center: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+      },
+      right: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'flex-end',
       },
       wrapper: {
         alignItems: 'center',
@@ -36,16 +58,21 @@ class HyperLine extends Component {
       }
     }
   }
+
   template(css) {
     const { plugins } = this.props
 
     return (
       <div className={css('line')} {...this.props}>
-        {plugins.map((Component, index) => (
-          <div key={index} className={css('wrapper')}>
-            <Component />
-          </div>
-        ))}
+        <div className={css('left')}>
+          {plugins.left.map(this.renderPlugin(css))}
+        </div>
+        <div className={css('center')}>
+          {plugins.center.map(this.renderPlugin(css))}
+        </div>
+        <div className={css('right')}>
+          {plugins.right.map(this.renderPlugin(css))}
+        </div>
       </div>
     )
   }
