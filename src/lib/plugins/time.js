@@ -1,6 +1,5 @@
 import React from 'react'
 import Component from 'hyper/component'
-import moment from 'moment'
 import SvgIcon from '../utils/svg-icon'
 
 class PluginIcon extends Component {
@@ -47,7 +46,7 @@ export default class Time extends Component {
   componentDidMount() {
     this.interval = setInterval(() => {
       this.setState({ time: this.getCurrentTime() })
-    }, 100)
+    }, 1000)
   }
 
   componentWillUnmount() {
@@ -56,7 +55,14 @@ export default class Time extends Component {
 
   getCurrentTime() {
     // TODO: Allow for format overriding by the user
-    return moment().format('LTS')
+    const options = {
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      month: 'short',
+      second: 'numeric',
+    }
+    return new Date().toLocaleString('en-US', options)
   }
 
   styles() {

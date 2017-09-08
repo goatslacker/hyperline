@@ -1,13 +1,7 @@
-import Hostname from './hostname'
-import Ip from './ip'
-import Memory from './memory'
-// Import Uptime from './uptime'
-import Cpu from './cpu'
-import Network from './network'
 import Battery from './battery'
-// Import Time from './time'
-// Import Docker from './docker'
-import Spotify from './spotify'
-import PartyParrot from './party-parrot';
+//import Cpu from './cpu'
+import Hostname from './hostname'
+import Network from './network'
+import Time from './time'
 
-export default [Hostname, Ip, Memory, Battery, Cpu, Network, Spotify, PartyParrot]
+export default [Hostname, Battery, Network, Time]

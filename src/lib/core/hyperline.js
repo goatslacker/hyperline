@@ -13,24 +13,26 @@ class HyperLine extends Component {
   styles() {
     return {
       line: {
+        background: '#272727',
+        bottom: 0,
+        color: '#d4d4d4',
         display: 'flex',
-        alignItems: 'center',
-        position: 'absolute',
+        fontFamily: 'Operator Mono',
+        fontSize: 13,
+        fontWeight: 'normal',
+        height: 18,
+        justifyContent: 'center',
         overflow: 'hidden',
-        bottom: '-1px',
-        width: '100%',
-        height: '18px',
-        font: 'bold 10px Monospace',
         pointerEvents: 'none',
-        background: 'rgba(0, 0, 0, 0.08)',
-        margin: '10px 10px 0 10px'
+        position: 'absolute',
+        width: '100%',
       },
       wrapper: {
-        display: 'flex',
-        flexShrink: '0',
         alignItems: 'center',
-        paddingLeft: '10px',
-        paddingRight: '10px'
+        display: 'flex',
+        flexShrink: 0,
+        paddingLeft: 10,
+        paddingRight: 10,
       }
     }
   }
