@@ -45,11 +45,13 @@ export default class HostName extends Component {
   template(css) {
     const hostname = os.hostname()
     const username = process.env.USER
+    const en0 = os.networkInterfaces()['en0']
+    const ipAddress = (en0 && en0[1] && en0[1].address) || hostname
 
     return (
       <div className={css('wrapper')}>
         <PluginIcon /> <span className={css('username')}>{username}@</span>
-        {hostname}
+        {ipAddress}
       </div>
     )
   }
