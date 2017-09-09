@@ -9,9 +9,9 @@ export default {
   left: [
     Hostname,
     CWD,
+    Git,
   ],
   center: [
-    Git,
   ],
   right: [
     Battery,

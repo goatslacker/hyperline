@@ -57,12 +57,14 @@ export default class GitStatus extends Component {
     return {
       wrapper: {
         display: 'flex',
-        alignItems: 'center'
-      }
+        alignItems: 'center',
+      },
     }
   }
 
   template(css) {
+    if (!this.state.branch) return null
+
     return (
       <div className={css('wrapper')}>
         {this.state.branch}
