@@ -1,6 +1,7 @@
 import Component from 'hyper/component'
 import React from 'react'
 import SvgIcon from '../utils/svg-icon'
+import cheapStore from '../utils/cheapStore'
 import { exec } from 'child_process'
 
 class PluginIcon extends Component {
@@ -43,6 +44,7 @@ export default class extends Component {
   }
 
   componentDidMount() {
+    // TODO batch subscriptions up
     this.interval = setInterval(() => {
       if (this.props.pid) this.setCwd(this.props.pid)
     }, 500)
@@ -59,7 +61,11 @@ export default class extends Component {
 
   setCwd(pid) {
     exec(`lsof -p ${pid} | awk '$4=="cwd"' | tr -s ' ' | cut -d ' ' -f9-`, (err, stdout) => {
-      if (!err) this.setState({ cwd: stdout.trim() })
+      if (!err) {
+        const cwd = stdout.trim()
+        this.setState({ cwd })
+        cheapStore.set('cwd', cwd)
+      }
     })
   }
 

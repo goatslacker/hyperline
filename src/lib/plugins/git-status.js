@@ -1,5 +1,6 @@
 import Component from 'hyper/component'
 import React from 'react'
+import cheapStore from '../utils/cheapStore'
 import path from 'path'
 import { exec } from 'child_process'
 import { stat } from 'fs'
@@ -36,15 +37,20 @@ export default class GitStatus extends Component {
   }
 
   componentDidMount() {
-    const cwd = ''
-    // TODO pull this from elsewhere
+    this.interval = setInterval(() => this.setBranch(), 500)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  setBranch() {
+    const cwd = cheapStore.get('cwd')
     if (cwd) {
       getGitBranch(cwd).then(branch => {
         this.setState({ branch })
       })
     }
-
-    // TODO setup listeners
   }
 
   styles() {
