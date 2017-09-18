@@ -31,7 +31,7 @@ export default class Draining extends Component {
       <SvgIcon>
         <g fillRule="evenodd">
           <g className={css('cpu-discharging-icon')}>
-            <path d={`M7,1 L9,1 L9,2 L7,2 L7,1 Z M4,2 L12,2 L12,15 L4,15 L4,2 Z ${chargePoint}`}></path>
+            <path d={`M7,1 L9,1 L9,2 L7,2 L7,1 Z M4,2 L12,2 L12,15 L4,15 L4,2 Z ${chargePoint}`} />
           </g>
         </g>
       </SvgIcon>

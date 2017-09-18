@@ -6,7 +6,7 @@ export default class Critical extends Component {
   styles() {
     return {
       'cpu-critical-icon': {
-        fill: '#fff'
+        fill: '#ff0000'
       }
     }
   }

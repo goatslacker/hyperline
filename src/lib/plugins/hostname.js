@@ -48,12 +48,13 @@ export default class HostName extends Component {
     const hostname = os.hostname().substr(0, 9)
     const username = process.env.USER
     const en0 = os.networkInterfaces()['en0']
-    const ipAddress = (en0 && en0[1] && en0[1].address) || hostname
+    const intface = en0 && en0.find(en => en.family === 'IPv4')
+    const host = (intface && intface.address) || hostname
 
     return (
       <div className={css('wrapper')}>
         <PluginIcon /> <span className={css('username')}>{username}@</span>
-        {ipAddress}
+        {host}
       </div>
     )
   }
