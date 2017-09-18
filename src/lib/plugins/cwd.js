@@ -1,7 +1,7 @@
 import Component from 'hyper/component'
 import React from 'react'
 import SvgIcon from '../utils/svg-icon'
-import cheapStore from '../utils/cheapStore'
+import xmit from '../utils/xmit'
 import { exec } from 'child_process'
 
 class PluginIcon extends Component {
@@ -59,7 +59,10 @@ export default class extends Component {
       if (!err) {
         const cwd = stdout.trim()
         this.setState({ cwd })
-        cheapStore.set('cwd', cwd)
+        xmit.publish({
+          type: 'cwd',
+          payload: cwd,
+        })
       }
     })
   }

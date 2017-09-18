@@ -1,8 +1,8 @@
 import Component from 'hyper/component'
 import React from 'react'
 import SvgIcon from '../utils/svg-icon'
-import cheapStore from '../utils/cheapStore'
 import path from 'path'
+import xmit from '../utils/xmit'
 import { exec } from 'child_process'
 import { stat } from 'fs'
 
@@ -65,11 +65,18 @@ export default class GitStatus extends Component {
   }
 
   componentDidMount() {
-    this.props.subscribe(() => this.setBranch(), 2)
+    this.subscription = xmit.subscribe(({ type, payload }) => {
+      if (type === 'cwd') {
+        this.setBranch(payload)
+      }
+    })
   }
 
-  setBranch() {
-    const cwd = cheapStore.get('cwd')
+  componentWillUnmount() {
+    this.subscription && this.subscription.dispose()
+  }
+
+  setBranch(cwd) {
     if (cwd) {
       getGitBranch(cwd).then(branch => {
         this.setState({ branch })
