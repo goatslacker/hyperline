@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Component from 'hyper/component'
 import decorate from 'hyper/decorate'
+import Subscriptions from '../utils/Subscriptions'
 
 class HyperLine extends Component {
   static propTypes() {
@@ -10,10 +11,26 @@ class HyperLine extends Component {
     }
   }
 
+  constructor() {
+    super()
+    this.sub = new Subscriptions()
+  }
+
+  componentDidMount() {
+    this.sub.start()
+  }
+
+  componentWillUnmount() {
+    this.sub.end()
+  }
+
   renderPlugin(css) {
     return (Component, index) => (
       <div key={index} className={css('wrapper')}>
-        <Component pid={this.props.pid} />
+        <Component
+          pid={this.props.pid}
+          subscribe={this.sub.subscribe.bind(this.sub)}
+         />
       </div>
     )
   }

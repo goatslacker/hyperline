@@ -44,13 +44,9 @@ export default class Time extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => {
+    this.props.subscribe(() => {
       this.setState({ time: this.getCurrentTime() })
-    }, 1000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval)
+    }, 1)
   }
 
   getCurrentTime() {

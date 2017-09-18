@@ -44,14 +44,9 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    // TODO batch subscriptions up
-    this.interval = setInterval(() => {
+    this.props.subscribe(() => {
       if (this.props.pid) this.setCwd(this.props.pid)
-    }, 500)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval)
+    }, 2)
   }
 
   componentWillReceiveProps(nextProps) {

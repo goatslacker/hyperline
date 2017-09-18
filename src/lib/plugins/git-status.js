@@ -65,11 +65,7 @@ export default class GitStatus extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.setBranch(), 500)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval)
+    this.props.subscribe(() => this.setBranch(), 2)
   }
 
   setBranch() {
