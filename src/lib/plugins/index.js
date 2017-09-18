@@ -14,8 +14,8 @@ export default {
   center: [
   ],
   right: [
-    Battery,
     Network,
+    Battery,
     Time,
   ],
 }
