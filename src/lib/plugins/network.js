@@ -78,7 +78,7 @@ export default class Network extends Component {
 
   componentDidMount() {
     this.getSpeed()
-    this.props.subscribe(() => this.getSpeed(), 1)
+    this.props.subscribe(() => this.getSpeed(), 2500)
   }
 
   calculate(data) {

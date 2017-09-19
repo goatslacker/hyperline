@@ -70,11 +70,9 @@ export default class Cpu extends Component {
 
   componentDidMount() {
     this.getCpuLoad()
-    this.interval = setInterval(() => this.getCpuLoad(), 2500)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval)
+    this.props.subscribe(() => {
+      this.getCpuLoad()
+    }, 2500)
   }
 
   styles() {

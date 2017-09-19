@@ -1,5 +1,5 @@
-function shouldNotify(timesPerSecond, intervalCount) {
-  return Math.floor(20 / timesPerSecond) % intervalCount === 0
+function shouldNotify(atMs, intervalCount) {
+  return intervalCount % atMs === 0
 }
 
 export default class Subscriptions {
@@ -18,8 +18,8 @@ export default class Subscriptions {
   }
 
   notify() {
-    this.subscriptions.forEach(({ f, timesPerSecond }) => {
-      if (shouldNotify(timesPerSecond, this.inc)) {
+    this.subscriptions.forEach(({ f, atMs }) => {
+      if (shouldNotify(atMs, this.inc)) {
         f()
       }
     })
@@ -28,19 +28,19 @@ export default class Subscriptions {
   start() {
     this.inc = 0
     this.interval = setInterval(() => {
-      if (this.inc >= 20) {
+      if (this.inc >= 10000) {
         this.inc = 0
       }
       this.notify()
-      this.inc += 1
+      this.inc += 50
     }, 50)
   }
 
-  subscribe(f, timesPerSecond) {
-    if (timesPerSecond > 5) {
-      throw new ReferenceError('Please enter a value < 5x/sec')
+  subscribe(f, atMs) {
+    if (atMs > 10000) {
+      throw new ReferenceError('Please enter a value < 10000ms')
     }
 
-    this.subscriptions.push({ f, timesPerSecond })
+    this.subscriptions.push({ f, atMs })
   }
 }

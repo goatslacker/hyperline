@@ -46,7 +46,7 @@ export default class extends Component {
   componentDidMount() {
     this.props.subscribe(() => {
       if (this.props.pid) this.setCwd(this.props.pid)
-    }, 2)
+    }, 500)
   }
 
   componentWillReceiveProps(nextProps) {

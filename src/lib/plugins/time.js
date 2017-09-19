@@ -46,7 +46,7 @@ export default class Time extends Component {
   componentDidMount() {
     this.props.subscribe(() => {
       this.setState({ time: this.getCurrentTime() })
-    }, 1)
+    }, 1000)
   }
 
   getCurrentTime() {
