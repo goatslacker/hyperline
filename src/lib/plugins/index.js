@@ -5,6 +5,7 @@ import Git from './git-status'
 import Hostname from './hostname'
 import Network from './network'
 import Time from './time'
+import Weather from './weather'
 
 export default {
   left: [
@@ -18,6 +19,7 @@ export default {
     Cpu,
     Network,
     Battery,
+    Weather,
     Time,
   ],
 }

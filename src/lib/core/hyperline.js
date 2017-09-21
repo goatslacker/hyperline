@@ -30,6 +30,7 @@ class HyperLine extends Component {
         <Component
           pid={this.props.pid}
           subscribe={this.sub.subscribe.bind(this.sub)}
+          weather={this.props.weather}
          />
       </div>
     )

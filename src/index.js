@@ -24,6 +24,7 @@ export function mapHyperState(state, map) {
     colors: getColorList(colors),
     fontFamily,
     pid,
+    weather: hyperline.weather,
   })
 }
 
@@ -69,7 +70,11 @@ export function decorateHyper(Hyper) {
       const customChildren = (
         <div>
           {this.props.customChildren}
-          <HyperLine pid={this.props.pid} style={{ fontFamily: this.props.fontFamily }} />
+          <HyperLine
+            pid={this.props.pid}
+            style={{ fontFamily: this.props.fontFamily }}
+            weather={this.props.weather}
+          />
         </div>
       )
 
