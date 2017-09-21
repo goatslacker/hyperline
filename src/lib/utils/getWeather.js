@@ -1,4 +1,5 @@
 const axios = require('axios')
+const crypto = require('crypto')
 const { LocalStorage } = require('node-localstorage')
 
 const localStorage = new LocalStorage('/tmp/.hyperline-weather')
@@ -16,8 +17,8 @@ function darkSky(apiKey, lat, lng) {
   })
 }
 
-function read() {
-  const data = localStorage.getItem('data.json')
+function read(file) {
+  const data = localStorage.getItem(file)
   if (!data) return {}
   try {
     return JSON.parse(data)
@@ -26,8 +27,8 @@ function read() {
   }
 }
 
-function write(conditions) {
-  localStorage.setItem('data.json', JSON.stringify({
+function write(file, conditions) {
+  localStorage.setItem(file, JSON.stringify({
     conditions,
     lastUpdatedAt: Date.now(),
   }))
@@ -39,12 +40,21 @@ function fresh(weatherData) {
   return Date.now() - weatherData.lastUpdatedAt < TIME_UNTIL_STALE
 }
 
+function getFileKey(weatherConfig) {
+  const { lat, lng } = weatherConfig
+  const hash = crypto.createHash('md5').update(`${lat},${lng}`, 'utf-8').digest('hex')
+  return `${hash}.json`
+}
+
 // 1. read from local store
 // 2. check last update time, if < 20m then return else
 // 3. query dark sky and get a response, if it fails drop and let the process try it again
 // 4. on a successful response we serialize the response and store it on local + disk
 function getWeather(weatherConfig) {
-  const weatherData = read()
+  const file = getFileKey(weatherConfig)
+  if (!file) return Promise.reject(new TypeError('Lat/Lng invalid'))
+
+  const weatherData = read(file)
 
   if (fresh(weatherData)) {
     return Promise.resolve(weatherData.conditions)
@@ -54,7 +64,7 @@ function getWeather(weatherConfig) {
   if (!apiKey) {
     return Promise.reject(new ReferenceError('Missing API Key'))
   }
-  return darkSky(apiKey, lat, lng).then(write)
+  return darkSky(apiKey, lat, lng).then(conditions => write(file, conditions))
 }
 
 module.exports = getWeather
