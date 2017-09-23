@@ -7,18 +7,18 @@ import { exec } from 'child_process'
 import { stat } from 'fs'
 
 function isGit(dir, cb) {
-  return new Promise((resolve) => {
-    stat(path.join(dir, '.git'), (err) => {
-      if (!err) resolve()
-    })
-  })
+  const gitPath = path.join(dir, '.git')
+  return new Promise(resolve => stat(gitPath, err => resolve(err)))
 }
 
 function getGitBranch(cwd) {
-  return isGit(cwd).then(() => {
-    return new Promise((resolve) => {
+  return isGit(cwd).then(err => {
+    if (err) return Promise.resolve(null)
+
+    return new Promise(resolve => {
       exec(`git symbolic-ref --short HEAD || git rev-parse --short HEAD`, { cwd }, (err, stdout) => {
-        if (!err) resolve(stdout.trim())
+        if (err) resolve(null)
+        else resolve(stdout.trim())
       })
     })
   })
