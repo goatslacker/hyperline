@@ -11,7 +11,7 @@ export default {
   left: [
     Hostname,
     CWD,
-    Git,
+//    Git,
   ],
   center: [
   ],
@@ -19,7 +19,7 @@ export default {
     Cpu,
     Network,
     Battery,
-    Weather,
+//    Weather,
     Time,
   ],
 }
